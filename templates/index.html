@@ -1,38 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-        <p>{{message}}</p>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  </head>
+  <body>
+    <div class='login_form'>
+      <form action='/validate' method='post'>
+        <h3>Login</h3>
+        {% with errors = get_flashed_messages(category_filter=['loginEmailError']) %}
+          {% if errors %}
+            <div class="error">
+              {%- for msg in errors %}
+                <p>{{ msg }}</p>
+              {% endfor -%}
+            </div>
+          {% endif %}
+        {% endwith %}
+        <label for='email'>Email:</label>
+        <input type='text' name='email' value={{session['email']}} >
+      {% with errors = get_flashed_messages(category_filter=['loginPasswordError']) %}
+        {% if errors %}
+           {%- for msg in errors %}
+             <p>{{ msg }}</p>
+           {% endfor -%}
+        {% endif %}
+      {% endwith %}
+      <label for='password'>Password:</label>
+      <input type='password' name='password'/>
+      <button type="submit">Login</button>
+     </form>
+    </div>
 
-  <form action="/sucess" method="post">
-       <p>Email: <input type="text" name="email"></p>
-       <p>Password: <input type="password" name="password"></p>
-       <input type="submit" value="Login">
-   </form>
+    <form action='/create' method='post' class='form-signin'>
+      <h2>If you don't have an account register here:</h2>
+      {% with errors = get_flashed_messages(category_filter=['first_nameError']) %}
+        {% if errors %}
+            {%- for msg in errors %}
+            <p>{{ msg }}</p>
+            {% endfor -%}
+        {% endif %}
+      {% endwith %}
+      <label for='first_name' >First Name:</label>
+      <input type='text' name='first_name' value={{session['first_name']}} >
+      {% with errors = get_flashed_messages(category_filter=['last_NameError']) %}
+        {% if errors %}
+          {%- for msg in errors %}
+            <p>{{ msg }}</p>
+          {% endfor -%}
+        {% endif %}
+      {% endwith %}
+      <label for='last_name'  >Last Name:</label>
+      <input type='text' name='last_name'  value='{{session['last_name']}}' >
+      {% with errors = get_flashed_messages(category_filter=['emailError']) %}
+        {% if errors %}
+          {%- for msg in errors %}
+            <p>{{ msg }}</p>
+          {% endfor -%}
+        {% endif %}
+      {% endwith %}
+      <label for='email'>Email:</label>
+      <input type='email' name='email' value={{session['email']}} >
+      {% with errors = get_flashed_messages(category_filter=['passwordError']) %}
+        {% if errors %}
+          {%- for msg in errors %}
+            <p>{{ msg }}</p>
+          {% endfor -%}
+        {% endif %}
+      {% endwith %}
+      <label for='password' >Password:</label>
+      <input type='password' name='password'/>
+      {% with errors = get_flashed_messages(category_filter=['confirm_passwordError']) %}
+        {% if errors %}
+          {%- for msg in errors %}
+           <p>{{ msg }}</p>
+          {% endfor -%}
+        {% endif %}
+      {% endwith %}
+      <label for='confirm_password' >Confirm Password:</label>
+      <input type='password' name='confirm_password' />
+      <button type="submit">Sign up</button>
+    </form>
 
-   <form  action="/register" method="post">
-      <label for="first_name">First Name: </label>
-      <input type="text" name="first_name"><br>
-      <label for="last_name">Last Name: </label>
-      <input type="text" name="last_name"><br>
-      <label for="email">Email: </label>
-      <input type="email" name="email"><br>
-      <label for="password">Password: </label>
-      <input type="password" name="password"><br>
-      <label for="password_confirmation">Password Confirmation: </label>
-      <input type="password" name="password_confirmation">
-      <input type="submit" value="Register">
-   </form>
-</body>
-</html>
+  </body>
+</HTML>
